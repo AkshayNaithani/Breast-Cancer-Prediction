@@ -1,0 +1,53 @@
+.enter{
+	font-size: 20px;
+	height: 1.2em;
+	width:15.2em;
+}
+.sub-res{
+	padding: 0px;
+	margin: 0px;
+	border: 0px;
+	width:49.3%;
+	height: 32px;
+	background-color: #4AAAC1;
+	color: white;
+}
+.sub-res:hover{
+	background-color: #4FD3F5;	
+}
+.option{
+	background-color: #2B3B5B;
+    border: none;
+    color: white;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    width: 20em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.option:hover{
+	color:#A5EC8B;
+	background-color: #5A89E6;
+}
+table{ 
+	margin-top: 0px;
+	padding-top: 0px;
+	margin-left: auto;
+	margin-right: auto;
+}
+a{
+	font-size: 20px;
+	font-family: sans-serif;
+}
+.selectTag{
+	font-size: 20px;
+	height: 1.2em;
+	width:15.4em;
+}
+select{
+    background: rgba(0,0,0,0.3);
+    color:#fff;
+    text-shadow:0 1px 0 rgba(0,0,0,0.4);
+}

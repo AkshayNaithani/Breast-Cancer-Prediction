@@ -1,0 +1,279 @@
+<!doctype html>
+<title>Breast Cancer</title>
+<script type="text/javascript" src="../static/jquery.min.js" href="{{ url_for('static',filename='jquery.min.js')}}"></script>
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+
+<table>
+	<tr>
+		<td>
+		<a id="clickMean" href="#" class="option">BREAST CANCER PREDICTION</a>
+		</td>
+	</tr>
+</table>
+
+<form action="/meanPrediction" method="POST">
+<table id="mean">
+<tr>
+<td><input class="enter" type="text" placeholder="RADIUS" name="radius"/></td>
+</tr>
+<tr>
+<td><input class="enter" type="text" placeholder="TEXTURE" name="texture" /></td>
+</tr>
+<td><input class="enter" type="text" placeholder="PERIMETER" name="perimeter" /></td>
+</tr>
+<tr>
+<td><input class="enter" type="text" placeholder="AREA" name="area" /></td>
+</tr>
+<tr>
+<td><input class="enter" type="text" placeholder="SMOOTHNESS" name="smoothness" /></td>
+</tr>
+<tr>
+<td><input class="enter" type="text" placeholder="COMPACTNESS" name="compactness" /></td>
+</tr>
+<tr>
+<td><input class="enter" type="text" placeholder="CONCAVITY" name="concavity" /></td>
+</tr>
+<tr>
+<td><input class="enter" type="text" placeholder="CONCAVE POINTS"  name="concave_points"/></td>
+</tr>
+<tr>
+<td><input class="enter" type="text" placeholder="SYMMETRY"  name="symmetry"/></td>
+</tr>
+<tr>
+<td><input class="enter" type="text" placeholder="FRACTAL DIMENSION"  name="fractal_dimension"/></td>
+<tr>
+<td>
+	<select class="selectTag" name="typeName">
+    <option value="" disabled selected>SELECTION TYPE</option>
+    <option value="mean">MEAN</option>
+    <option value="se">STANDARD ERROR</option>
+    <option value="worst">WORST</option>
+	</select>
+</td>
+</tr>
+<tr>
+<td>
+	<select class="selectTag" name="algoName">
+    <option value="" disabled selected>
+    SELECTION ALGORITHM</option>
+    <option value="svm">SVM</option>
+    <option value="knn">KNN</option>
+    <option value="rf">RANDOM FOREST</option>
+	</select>
+</td>
+</tr>
+</tr>
+	<td>
+		<input class="sub-res" type="submit" name="submit">
+		<input class="sub-res" type="reset" name="clear">
+	</td>
+</table>
+</form>
+
+
+<table id="perform" >
+	<tr>
+		<td>
+		<a  href="/performance" class="option">PERFORMANCE</a>
+		</td>
+	</tr>
+</table>
+<br/>
+
+<div id="svm">
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<div id="chart_svm"  style="width:auto; height: auto;"></div>
+	 
+	 
+	<script type='text/javascript'>//<![CDATA[ 
+	 
+		google.load('visualization', '1', {packages: ['corechart', 'bar']});
+		google.setOnLoadCallback(drawBasic);
+		 
+		function drawBasic() {
+		      function getRandomColor() {
+		          var letters = '0123456789ABCDEF';
+		          var color = '#';
+		          for (var i = 0; i < 6; i++ ) {
+		              color += letters[Math.floor(Math.random() * 16)];
+		          }
+		          return color;
+		      }
+		      var data = google.visualization.arrayToDataTable([
+		        ['Currency', 'Rate', { role: 'style' }],
+		        ['MEAN', {{meanSVM}},getRandomColor()],
+		        ['STANDARD ERROR', {{seSVM}},getRandomColor()],
+		        ['WORST', {{worstSVM}},getRandomColor()]
+		      ]);
+		 
+		      var options = {
+		        title: 'PERFORMANCE BY SUPPORT VECTOR MACHINE',
+		        chartArea: {width: '50%'},
+		        hAxis: {
+		          title: '',
+		          minValue: 0
+		        },
+		        vAxis: {
+		          title: ''
+		        }
+		      };
+		 	{% if meanSVM!=-1 %}	
+		      var chart = new google.visualization.BarChart(document.getElementById('chart_svm'));
+		 
+		      chart.draw(data, options);
+		    {% endif %}
+		    }
+		//]]>  
+	 
+	</script>
+</div>
+
+<div id="knn">
+	 
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<div id="chart_knn"  style="width:auto; height: auto;"></div>
+	 
+	 
+	<script type='text/javascript'>//<![CDATA[ 
+	 
+		google.load('visualization', '1', {packages: ['corechart', 'bar']});
+		google.setOnLoadCallback(drawBasic);
+		 
+		function drawBasic() {
+		      function getRandomColor() {
+		          var letters = '0123456789ABCDEF';
+		          var color = '#';
+		          for (var i = 0; i < 6; i++ ) {
+		              color += letters[Math.floor(Math.random() * 16)];
+		          }
+		          return color;
+		      }
+		      var data = google.visualization.arrayToDataTable([
+		        ['Currency', 'Rate', { role: 'style' }],
+		        ['MEAN', {{meanKNN}},getRandomColor()],
+		        ['STANDARD ERROR', {{seKNN}},getRandomColor()],
+		        ['WORST', {{worstKNN}},getRandomColor()]
+		      ]);
+		 
+		      var options = {
+		        title: 'PERFORMANCE BY K-NEAREST NEIGHBOUR',
+		        chartArea: {width: '50%'},
+		        hAxis: {
+		          title: '',
+		          minValue: 0
+		        },
+		        vAxis: {
+		          title: ''
+		        }
+		      };
+		 	
+		 	{% if meanKNN!=-1 %}
+		      var chart = new google.visualization.BarChart(document.getElementById('chart_knn'));
+		 
+		      chart.draw(data, options);
+		    {% endif %}
+		    }
+		//]]>  
+
+	</script>
+</div>
+
+<div id="rf">
+	 
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<div id="chart_rf"  style="width:auto; height: auto;"></div>
+	 
+	 
+	<script type='text/javascript'>//<![CDATA[ 
+	 
+		google.load('visualization', '1', {packages: ['corechart', 'bar']});
+		google.setOnLoadCallback(drawBasic);
+		 
+		function drawBasic() {
+		      function getRandomColor() {
+		          var letters = '0123456789ABCDEF';
+		          var color = '#';
+		          for (var i = 0; i < 6; i++ ) {
+		              color += letters[Math.floor(Math.random() * 16)];
+		          }
+		          return color;
+		      }
+		      var data = google.visualization.arrayToDataTable([
+		        ['Currency', 'Rate', { role: 'style' }],
+		        ['MEAN', {{meanRF}},getRandomColor()],
+		        ['STANDARD ERROR', {{seRF}},getRandomColor()],
+		        ['WORST', {{worstRF}},getRandomColor()]
+		      ]);
+		 
+		      var options = {
+		        title: 'PERFORMANCE BY RANDOM FOREST',
+		        chartArea: {width: '50%'},
+		        hAxis: {
+		          title: '',
+		          minValue: 0
+		        },
+		        vAxis: {
+		          title: ''
+		        }
+		      };
+
+		 	{% if meanRF!=-1 %}
+		      var chart = new google.visualization.BarChart(document.getElementById('chart_rf'));
+		 
+		      chart.draw(data, options);
+		    {% endif %}
+		    }
+		//]]>  
+
+	</script>
+</div>
+<script type="text/javascript">
+
+	function activate(op) {
+		if(op==""){
+			$("#mean").fadeOut();
+			$("#svm").fadeOut();
+			$("#knn").fadeOut();
+			$("#chart_svm").fadeOut();
+			$("#rf").fadeOut();
+			$("#chart_rf").fadeOut();
+			$("#chart_knn").fadeOut();
+			return;
+		}
+		else if(op=="mean"){
+			$("#mean").fadeIn();
+			$("#svm").fadeOut();
+			$("#knn").fadeOut();
+			$("#chart_svm").fadeOut();
+			$("#rf").fadeOut();
+			$("#chart_rf").fadeOut();
+			$("#chart_knn").fadeOut();
+		}
+		else{
+
+		}
+	}
+
+	$(document).ready(function(){
+		$("#mean").fadeOut();
+		{% if mean==-1 and se==-1 and worst==-1 %}
+			activate("");
+		{% endif %}
+	});
+	var countMean=0;
+	$("#clickMean").click(function(){
+		countMean=countMean+1;
+		if(countMean%2){
+			activate("mean");
+		}
+		else{
+			$("#mean").fadeOut();
+		}
+	});
+	$("#chart_svm").click(function(){
+		activate("svm");
+	});
+	$("#chart_knn").click(function(){
+		activate("knn");
+	});
+</script>
