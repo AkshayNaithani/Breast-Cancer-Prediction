@@ -1,0 +1,139 @@
+<!doctype html>
+<title>IRIS</title>
+<script type="text/javascript" src="../static/jquery.min.js" href="{{ url_for('static',filename='jquery.min.js')}}"></script>
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+
+<table>
+	<tr>
+		<td>
+		<a id="clickMean" href="#" class="option">IRIS SPECIES PREDICTION</a>
+		</td>
+	</tr>
+</table>
+
+<form action="/Prediction" method="POST">
+<table id="mean">
+<tr>
+<td><input class="enter" type="text" placeholder="SEPAL LENGTH" name="sepalLength"/></td>
+</tr>
+<tr>
+<td><input class="enter" type="text" placeholder="SEPAL WIDTH" name="sepalWidth" /></td>
+</tr>
+<td><input class="enter" type="text" placeholder="PETAL LENGTH" name="petalLength" /></td>
+</tr>
+<tr>
+<td><input class="enter" type="text" placeholder="PETAL WIDTH" name="petalWidth" /></td>
+</tr>
+<tr>
+<td>
+	<select class="selectTag" name="algoName">
+    <option value="" disabled selected>
+    SELECT ALGORITHM</option>
+    <option value="svm">SVM</option>
+    <option value="knn">KNN</option>
+    <option value="rf">RANDOM FOREST</option>
+    <option value="nb">NAIVE BAYES</option>
+	</select>
+</td>
+</tr>
+</tr>
+	<td>
+		<input class="sub-res" type="submit" name="submit">
+		<input class="sub-res" type="reset" name="clear">
+	</td>
+</table>
+</form>
+
+
+<table id="perform" >
+	<tr>
+		<td>
+		<a  href="/performance" class="option">PERFORMANCE</a>
+		</td>
+	</tr>
+</table>
+<br/>
+<div id="svm">
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<div id="chart_svm"  style="width:auto; height: 300px;"></div>
+	 
+	 
+	<script type='text/javascript'>//<![CDATA[ 
+	 
+		google.load('visualization', '1', {packages: ['corechart', 'bar']});
+		google.setOnLoadCallback(drawBasic);
+		 
+		function drawBasic() {
+		      function getRandomColor() {
+		          var letters = '0123456789ABCDEF';
+		          var color = '#';
+		          for (var i = 0; i < 6; i++ ) {
+		              color += letters[Math.floor(Math.random() * 16)];
+		          }
+		          return color;
+		      }
+		      var data = google.visualization.arrayToDataTable([
+		        ['Currency', 'Rate', { role: 'style' }],
+		        ['SUPPORT VECTOR MACHINE', {{SVM}},getRandomColor()],
+		        ['K-NEAREST NEIGHBOUR', {{KNN}},getRandomColor()],
+		        ['NAIVE BAYES', {{NB}},getRandomColor()],
+		        ['RANDOM FOREST', {{RF}},getRandomColor()]
+		      ]);
+		 
+		      var options = {
+		        title: 'PERFORMANCE OF DIFFERENT ALGORITHMS',
+		        chartArea: {width: '50%'},
+		        hAxis: {
+		          title: '',
+		          minValue: 0
+		        },
+		        vAxis: {
+		          title: ''
+		        }
+		      };
+		 	{% if flagGraph=="True" %}	
+		      var chart = new google.visualization.BarChart(document.getElementById('chart_svm'));
+		 
+		      chart.draw(data, options);
+		    {% endif %}
+		    }
+		//]]>  
+	 
+	</script>
+</div>
+
+
+<script type="text/javascript">
+
+	function activate(op) {
+		if(op==""){
+			$("#mean").fadeOut();
+			$("#svm").fadeOut();
+			return;
+		}
+		else if(op=="mean"){
+			$("#mean").fadeIn();
+			$("#svm").fadeOut();
+		}
+		else{
+
+		}
+	}
+
+	$(document).ready(function(){
+		$("#mean").fadeOut();
+		{% if mean==-1 and se==-1 and worst==-1 %}
+			activate("");
+		{% endif %}
+	});
+	var countMean=0;
+	$("#clickMean").click(function(){
+		countMean=countMean+1;
+		if(countMean%2){
+			activate("mean");
+		}
+		else{
+			$("#mean").fadeOut();
+		}
+	});
+</script>
